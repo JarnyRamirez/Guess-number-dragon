@@ -3,6 +3,7 @@ let targetNumber;
 let attempts;
 let bestScores = [null, null, null]; 
 
+// IDs basados en tu estructura HTML de vidrio
 const inputField = document.getElementById('gameInput');
 const attemptsDisplay = document.getElementById('attemptsCount');
 const historyContainer = document.getElementById('historialContainer');
@@ -19,7 +20,7 @@ function startGame() {
     
     inputField.value = '';
     attemptsDisplay.textContent = attempts;
-    historyContainer.innerHTML = ''; // Como "Historial:" está en el HTML fuera de este div, no se borra.
+    historyContainer.innerHTML = ''; 
     
     updateGameState('🎯 ¡Nuevo juego! Adivina el número...', '#ff33aa');
     sabiasque.textContent = 'Si adivinas, tienes una intuición asombrosa!';
@@ -35,93 +36,82 @@ function updateGameState(message, color) {
     gameStateMessage.style.textShadow = `0 0 10px ${color}`;
 }
 
-function addGuessToHistory(guess, isCorrect, isHigh) {
-    const badge = document.createElement('span');
-    badge.className = 'history-badge';
-    badge.textContent = guess;
-    
-    if (isCorrect) {
-        badge.style.color = '#00ff00';
-    } else if (isHigh) {
-        badge.style.color = '#ff3333';
+// --- TU FUNCIÓN DE PISTAS (Única fuente de verdad) ---
+function obtenerPista(intento, secreto) {
+    let diferencia = Math.abs(intento - secreto);
+
+    if (diferencia <= 5) {
+        return '🔥 ¡Muy cerca!';
+    } else if (diferencia <= 15) {
+        return '♨️ Caliente';
+    } else if (diferencia <= 30) {
+        return '🌤️ Tibio';
     } else {
-        badge.style.color = '#33ffff';
+        return '❄️ Frío';
     }
-    
-    historyContainer.appendChild(badge);
-}
-
-function updateDragonScores(nuevoScore) {
-    bestScores.push(nuevoScore);
-    bestScores.sort((a, b) => {
-        if (a === null) return 1;
-        if (b === null) return -1;
-        return a - b;
-    });
-    bestScores = bestScores.slice(0, 3); 
-
-    rankScores.forEach((scoreSpan, index) => {
-        scoreSpan.textContent = bestScores[index] !== null ? `${bestScores[index]} intentos` : '? intentos';
-    });
 }
 
 function checkGuess() {
     const guess = parseInt(inputField.value);
 
+    // Validación de entrada
     if (isNaN(guess) || guess < 1 || guess > 100) {
-        updateGameState('⚠️ Número inválido. (1 a 100)', '#ff9900');
+        updateGameState('⚠️ Ingresa del 1 al 100', '#ff9900');
         return;
     }
 
     attempts++;
     attemptsDisplay.textContent = attempts;
 
+    // Lógica de Historial (Solo el número)
+    const badge = document.createElement('span');
+    badge.className = 'history-badge';
+    badge.textContent = guess;
+    historyContainer.appendChild(badge);
+
     if (guess === targetNumber) {
-        addGuessToHistory(guess, true, false);
-        updateGameState(`🎉 ¡Felicidades! Era el ${targetNumber}.`, '#00ff00');
+        // VICTORIA
+        updateGameState(`🎉 ¡Correcto! Era el ${targetNumber}.`, '#00ff00');
         sabiasque.innerHTML = '¡Asombroso! Tienes intuición de dragón 🔥🐉';
-        
         gameBtn.disabled = true;
-        btnReiniciar.style.display = 'block';
+        btnReiniciar.style.display = 'inline-block';
         updateDragonScores(attempts);
         
-    } else {
-        addGuessToHistory(guess, false, guess > targetNumber);
+    } else if (attempts >= maxAttempts) {
+        // DERROTA
+        updateGameState(`😔 Game Over. Era el ${targetNumber}.`, '#ff3333');
+        gameBtn.disabled = true;
+        btnReiniciar.style.display = 'inline-block';
         
-        if (attempts >= maxAttempts) {
-            updateGameState(`😔 ¡Game Over! El número era ${targetNumber}.`, '#ff3333');
-            gameBtn.disabled = true;
-            btnReiniciar.style.display = 'block';
-        } else {
-            if (guess < targetNumber) {
-                updateGameState('📉 Demasiado bajo...', '#ff33aa');
-            } else {
-                updateGameState('📈 Demasiado alto...', '#ff33aa');
-            }
-        }
+    } else {
+        // PISTA ÚNICA (Solo temperatura)
+        let pista = obtenerPista(guess, targetNumber);
+        updateGameState(pista, '#ff33aa');
     }
 
     inputField.value = ''; 
     inputField.focus();
 }
 
-// Inicializar y Eventos
-startGame(); 
+// --- Ranking y Prevención ---
+function updateDragonScores(nuevoScore) {
+    bestScores.push(nuevoScore);
+    bestScores.sort((a, b) => (a === null ? 1 : b === null ? -1 : a - b));
+    bestScores = bestScores.slice(0, 3); 
+    rankScores.forEach((span, i) => {
+        span.textContent = bestScores[i] ? `${bestScores[i]} intentos` : '? intentos';
+    });
+}
+
+// Prevención de entrada errónea
+inputField.addEventListener('input', function() {
+    if (this.value > 100) this.value = 100;
+    if (this.value !== "" && this.value < 1) this.value = "";
+});
+
+// Eventos de botones
 gameBtn.addEventListener('click', checkGuess);
 btnReiniciar.addEventListener('click', startGame);
-inputField.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter' && !gameBtn.disabled) {
-        checkGuess();
-    }
-});
-// --- Prevención en tiempo real ---
-inputField.addEventListener('input', function () {
-    // Si escribe un número mayor a 100, lo fijamos en 100 automáticamente
-    if (this.value > 100) {
-        this.value = 100;
-    }
-    // Si intenta poner un número negativo o 0, vaciamos la caja
-    if (this.value !== "" && this.value < 1) {
-        this.value = "";
-    }
-});
+inputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkGuess(); });
+
+startGame();
