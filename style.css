@@ -1,0 +1,163 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #0a0a14 url('nebula-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: #eee;
+}
+
+.glass-panel {
+    background: rgba(20, 20, 30, 0.4);
+    backdrop-filter: blur(12px);
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #ffd700, #ff66cc) 1;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.panel-title, .panel-state-message {
+    color: #ff33aa;
+    text-shadow: 0 0 10px #ff33aa, 0 0 20px rgba(255, 51, 170, 0.5);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.panel-subtitle, .panel-attempts-display, .panel-historial-label {
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc, 0 0 15px rgba(0, 255, 204, 0.5);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.panel-controls { margin-bottom: 25px; }
+
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-input {
+    background: rgba(30, 30, 45, 0.6);
+    border: 2px solid #33ffff;
+    border-radius: 8px;
+    color: #00ffcc;
+    font-size: 1.2rem;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 0 5px #33ffff, 0 0 15px rgba(51, 255, 255, 0.3);
+}
+
+.panel-input::placeholder { color: rgba(0, 255, 204, 0.6); }
+
+.panel-button {
+    background: #ff00cc;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 0 10px #ff00cc, 0 0 20px rgba(255, 0, 204, 0.5);
+}
+
+.panel-button:hover { background: #e600b3; }
+.panel-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-reiniciar {
+    background: #00ffcc;
+    color: #0a0a14;
+    box-shadow: 0 0 10px #00ffcc;
+    margin-top: 15px;
+}
+.btn-reiniciar:hover { background: #00ccaa; }
+
+.historial-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    min-height: 35px;
+}
+
+.history-badge {
+    background: rgba(50, 50, 70, 0.8);
+    border: 2px solid currentColor;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    min-width: 40px;
+    display: inline-block;
+}
+
+.panel-quote {
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00, 0 0 20px rgba(255, 255, 0, 0.6);
+    font-size: 0.9rem;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.dragon-scores {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(50, 50, 70, 0.4);
+    border-radius: 8px;
+    text-align: left;
+}
+
+.dragon-scores-title {
+    color: #ffff00;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.dragon-scores-list {
+    list-style: none;
+    color: #00ffcc;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.dragon-scores-list .rank-name { font-weight: bold; }
+.dragon-scores-list .rank-score { font-family: monospace; }
+
+@media (min-width: 600px) {
+    .glass-panel { max-width: 600px; padding: 30px; }
+    .controls-container { flex-direction: row; gap: 15px; }
+    .panel-input, .panel-button { width: auto; flex-grow: 1; }
+}
+/* Eliminar flechas en Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Eliminar flechas en Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

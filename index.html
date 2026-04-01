@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 Intuición Numérica - Jarny Ramirez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="glass-panel" id="game-panel">
+            <header class="panel-header">
+                <h1 class="panel-title">🎯 INTUICIÓN NUMÉRICA</h1>
+                <p class="panel-subtitle">Crees poder adivinar en que número estoy pensando del 1 al 100...</p>
+            </header>
+
+            <section class="panel-controls">
+                <div class="controls-container">
+                    <input type="number" class="panel-input" min="1" max="100" placeholder="?" id="gameInput">
+                    <button class="panel-button" id="gameButton">ADIVINAR</button>
+                </div>
+            </section>
+
+            <section class="panel-state">
+                <p class="panel-state-message" id="mensaje">🎯 ¡Nuevo juego! Adivina el número...</p>
+                <p class="panel-attempts-display">Intentos: <span id="attemptsCount">0</span> / 10</p>
+            </section>
+
+            <section class="panel-historial">
+                <p class="panel-historial-label">Historial:</p>
+                <div class="historial-container" id="historialContainer"></div>
+            </section>
+
+            <footer class="panel-footer">
+                <p class="panel-quote" id="sabiasque">Si adivinas, tienes una intuición asombrosa!</p>
+                <button class="panel-button btn-reiniciar" id="btnReiniciar" style="display: none;">🔄 VOLVER A INTENTAR</button>
+            </footer>
+
+            <section class="dragon-scores">
+                <h2 class="dragon-scores-title">🏆 Rango de Dragones</h2>
+                <ul class="dragon-scores-list">
+                    <li><span class="rank-name">1. Dragón Blanco 🐉🤍</span>: <span class="rank-score">? intentos</span></li>
+                    <li><span class="rank-name">2. Dragón Dorado 🐉💛</span>: <span class="rank-score">? intentos</span></li>
+                    <li><span class="rank-name">3. Dragón Rojo 🐉❤️</span>: <span class="rank-score">? intentos</span></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
